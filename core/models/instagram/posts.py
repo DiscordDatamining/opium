@@ -1,4 +1,4 @@
-import httpx
+from httpx import AsyncClient
 from pydantic import BaseModel
 
 from core.config import Api
@@ -7,14 +7,14 @@ from core.config import Api
 class InstagramModel(BaseModel):
     url: str = Api.url
     headers: dict = Api.headers
-    session: httpx.AsyncClient = httpx.AsyncClient()
 
-    async def get_user_story(self: "InstagramModel", username: str) -> None:
+    async def get_user_story(self: "InstagramModel", username: str) -> dict:
         """
         Get's an Instagram user's story
         """
-        async with self.session as client:
-            r = await client.get(
-                headers=self.headers, url=f"{self.url}/ig/user/{username}/stories"
+        async with AsyncClient() as client:
+            response = await client.get(
+                url=f"{self.url}/ig/user/{username}/stories",
+                headers=self.headers,
             )
-        return r.json()
+            return response.json()
