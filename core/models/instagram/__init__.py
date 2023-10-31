@@ -1,1 +1,1 @@
-from models.instagram.posts import *
+from core.models.instagram.posts import *
