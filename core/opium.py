@@ -66,12 +66,3 @@ class Opium(Bot):
                         )
                     except:
                         pass
-
-    async def get_context(self: "Opium", message: Message, *, cls=None) -> None:
-        """
-        Custom Context
-        """
-        return await super().get_context(
-            message,
-            cls=cls or Opium.context,
-        )
