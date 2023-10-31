@@ -26,3 +26,7 @@ class db:
     port: str = ""
     database: str = ""
     password: str = ""
+
+
+class Color:
+    regular: int = 0x2B2D31
