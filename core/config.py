@@ -2,7 +2,7 @@ from typing import Dict, List
 
 
 class Authorization:
-    owner_ids: list[int, int] = [
+    owner_ids: list = [
         1168732514152628285,
     ]
     token: str = (
