@@ -5,23 +5,16 @@ from typing import Any, Dict, Generator, List, Optional
 import asyncpg
 import redis
 from aiohttp import ClientSession
-from core.config import Api, Authorization, db
-from core.database import database
-from discord import (
-    AllowedMentions,
-    Guild,
-    Intents,
-    Message,
-    Status,
-)
+from discord import AllowedMentions, Guild, Intents, Message, Status
 from discord.ext.commands import Bot, CommandError, Context
 from redis.asyncio import Redis
-from terminut import (
-    BetaConsole,
-    printf as print,
-    inputf as input,
-    log,
-)
+from terminut import BetaConsole
+from terminut import inputf as input
+from terminut import log
+from terminut import printf as print
+
+from core.config import Api, Authorization, db
+from core.database import database
 
 
 class Opium(Bot):

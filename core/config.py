@@ -13,6 +13,10 @@ class Authorization:
 
 class Api:
     key: str = ""
+    headers: Dict[str] = {
+        "Authorization": "ownership",
+        "X-username": "wise",
+    }
 
 
 class db:
