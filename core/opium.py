@@ -21,7 +21,7 @@ class Opium(Bot):
     def __init__(self: "Opium", *args, **kwargs):
         super().__init__(
             command_prefix=Authorization.prefix,
-            status=Status.invisible,
+            status=Status.idle,
             help_command=None,
             allowed_mentions=AllowedMentions(
                 replied_user=False,
@@ -50,9 +50,6 @@ class Opium(Bot):
 
         self.log.success("Setup hook was executed!")
 
-    async def get_context(self: "Opium", message: Message, *, cls=Context) -> Context:
-        return await super().get_context(message, cls=cls)
-
     async def on_ready(self: "Opium") -> None:
         """
         Client Ready
@@ -69,3 +66,12 @@ class Opium(Bot):
                         )
                     except:
                         pass
+
+    async def get_context(self: "Opium", message: Message, *, cls=None) -> None:
+        """
+        Custom Context
+        """
+        return await super().get_context(
+            message,
+            cls=cls or Opium.context,
+        )

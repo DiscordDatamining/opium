@@ -12,6 +12,7 @@ class Authorization:
 
 
 class Api:
+    url: str = "https://api.ermm.tech"
     key: str = ""
     headers: dict() = {
         "Authorization": "ownership",
