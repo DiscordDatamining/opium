@@ -46,9 +46,12 @@ class Opium(Bot):
         """
         self.log = log
         self.db = await database.connect(self=database())
-        self.session: ClientSession()
+        self.session = ClientSession()
 
         self.log.success("Setup hook was executed!")
+
+    async def get_context(self: "Opium", message: Message, *, cls=Context) -> Context:
+        return await super().get_context(message, cls=cls)
 
     async def on_ready(self: "Opium") -> None:
         """
