@@ -15,6 +15,17 @@ class TikTokModel(BaseModel):
     headers: dict = Api.headers
     url: str = Api.url
 
+    async def random_video(self: "TikTokModel") -> None:
+        """
+        Get's a random tiktok video
+        """
+        async with ClientSession() as cs:
+            async with cs.get(
+                url=f"{self.url}/tiktok/videos",
+                headers=self.headers,
+            ) as r:
+                return await r.json()
+
     async def get_video(self: "TikTokModel", video_link: str) -> dict:
         async with ClientSession() as cs:
             async with cs.get(
