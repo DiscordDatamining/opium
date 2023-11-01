@@ -20,87 +20,90 @@ class Transcribe(Cog):
     def __init__(self: "Transcribe", bot: Opium):
         self.bot: Opium = bot
 
+    @Cog.listener("on_message")
+    async def transcribe(self: "Transcribe", message: Message) -> None:
+        if message.author == self.bot.user:
+            return
 
-@Cog.listener("on_message")
-async def transcribe(self: "Transcribe", message: Message) -> None:
-    if message.author == self.bot.user:
-        return
+        try:
+            if message.attachments:
+                for attachment in message.attachments:
+                    if attachment.filename.endswith(".ogg"):
+                        async with message.channel.typing():
+                            file_path = f"./{attachment.filename}"
+                            await attachment.save(file_path)
 
-    try:
-        if message.attachments:
-            for attachment in message.attachments:
-                if attachment.filename.endswith(".ogg"):
-                    async with message.channel.typing():
-                        file_path = f"./{attachment.filename}"
-                        await attachment.save(file_path)
+                            audio = AudioSegment.from_ogg(file_path)
+                            wav_path = file_path.replace(".ogg", ".wav")
+                            audio.export(wav_path, format="wav")
 
-                        audio = AudioSegment.from_ogg(file_path)
-                        wav_path = file_path.replace(".ogg", ".wav")
-                        audio.export(wav_path, format="wav")
-
-                        recognizer = sr.Recognizer()
-                        with sr.AudioFile(wav_path) as source:
-                            audio_data = recognizer.record(source)
-                            text = recognizer.recognize_google(audio_data)
-                            permissions = message.author.guild_permissions
-                            await message.reply(
-                                embed=Embed(
-                                    description=f"> 💤 {text}",
-                                    color=Color.regular,
+                            recognizer = sr.Recognizer()
+                            with sr.AudioFile(wav_path) as source:
+                                audio_data = recognizer.record(source)
+                                text = recognizer.recognize_google(audio_data)
+                                permissions = message.author.guild_permissions
+                                await message.reply(
+                                    embed=Embed(
+                                        description=f"> 💤 {text}",
+                                        color=Color.regular,
+                                    )
                                 )
-                            )
 
-                            if "create a text Channel called" in text:
-                                if permissions.manage_channels:
-                                    name = text.replace(
-                                        "create a text Channel called", ""
-                                    ).strip()
-                                    return await self.create_channel(message, name)
-                                else:
-                                    return await message.reply(
-                                        "> *You don't have permission to create channels.*"
-                                    )
+                                if "create a text Channel called" in text:
+                                    if permissions.manage_channels:
+                                        name = text.replace(
+                                            "create a text Channel called", ""
+                                        ).strip()
+                                        return await self.create_channel(message, name)
+                                    else:
+                                        return await message.reply(
+                                            "> *You don't have permission to create channels.*"
+                                        )
 
-                            elif "delete the channel called" in text:
-                                if permissions.manage_channels:
-                                    channel_name = text.replace(
-                                        "delete the channel called", ""
-                                    ).strip()
-                                    return await self.delete_channel(
-                                        message, channel_name
-                                    )
-                                else:
-                                    return await message.reply(
-                                        "> *You don't have permission to delete channels.*"
-                                    )
+                                elif "delete the channel called" in text:
+                                    if permissions.manage_channels:
+                                        channel_name = text.replace(
+                                            "delete the channel called", ""
+                                        ).strip()
+                                        return await self.delete_channel(
+                                            message, channel_name
+                                        )
+                                    else:
+                                        return await message.reply(
+                                            "> *You don't have permission to delete channels.*"
+                                        )
 
-                            elif "create a role called" in text:
-                                if permissions.manage_roles:
-                                    role_name = text.replace(
-                                        "create a role called", ""
-                                    ).strip()
-                                    return await self.create_role(message, role_name)
-                                else:
-                                    return await message.reply(
-                                        "> *You don't have permission to create roles.*"
-                                    )
+                                elif "create a role called" in text:
+                                    if permissions.manage_roles:
+                                        role_name = text.replace(
+                                            "create a role called", ""
+                                        ).strip()
+                                        return await self.create_role(
+                                            message, role_name
+                                        )
+                                    else:
+                                        return await message.reply(
+                                            "> *You don't have permission to create roles.*"
+                                        )
 
-                            elif "delete the role called" in text:
-                                if permissions.manage_roles:
-                                    role_name = text.replace(
-                                        "delete the role called", ""
-                                    ).strip()
-                                    return await self.delete_role(message, role_name)
-                                else:
-                                    return await message.reply(
-                                        "> *You don't have permission to delete roles.*"
-                                    )
+                                elif "delete the role called" in text:
+                                    if permissions.manage_roles:
+                                        role_name = text.replace(
+                                            "delete the role called", ""
+                                        ).strip()
+                                        return await self.delete_role(
+                                            message, role_name
+                                        )
+                                    else:
+                                        return await message.reply(
+                                            "> *You don't have permission to delete roles.*"
+                                        )
 
-                            remove(file_path)
-                            remove(wav_path)
+                                remove(file_path)
+                                remove(wav_path)
 
-    except Exception as e:
-        return self.bot.log.error(e)
+        except Exception as e:
+            return self.bot.log.error(e)
 
     async def create_channel(self, message, name):
         try:
