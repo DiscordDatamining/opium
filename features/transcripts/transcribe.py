@@ -104,7 +104,7 @@ class Transcribe(Cog):
         except Exception as e:
             return self.bot.log.error(e)
 
-    async def create_channel(self, message, name):
+    async def create_channel(self: "Transcribe", message, name):
         try:
             await message.guild.create_text_channel(name=name)
             return await message.reply(
@@ -117,8 +117,11 @@ class Transcribe(Cog):
         except HTTPException:
             return await message.reply("> *Failed to create the channel.*")
 
-    async def delete_channel(self, message, channel_name):
-        channel = discord.utils.get(message.guild.channels, name=channel_name)
+    async def delete_channel(self: "Transcribe", message, channel_name):
+        channel = discord.utils.get(
+            message.guild.channels,
+            name=channel_name,
+        )
         if channel:
             try:
                 await channel.delete()
@@ -130,21 +133,34 @@ class Transcribe(Cog):
                     "> *I don't have permission to delete channels.*"
                 )
             except HTTPException:
-                return await message.reply("> *Failed to delete the channel.*")
+                return await message.reply(
+                    "> *Failed to delete the channel.*",
+                )
         else:
-            return await message.reply(f"> *Channel {channel_name} not found.*")
+            return await message.reply(
+                f"> *Channel {channel_name} not found.*",
+            )
 
-    async def create_role(self, message, role_name):
+    async def create_role(self: "Transcribe", message, role_name):
         try:
             await message.guild.create_role(name=role_name)
-            return await message.reply(f"> *Role {role_name} created successfully.*")
+            return await message.reply(
+                f"> *Role {role_name} created successfully.*",
+            )
         except Forbidden:
-            return await message.reply("> *I don't have permission to create roles.*")
+            return await message.reply(
+                "> *I don't have permission to create roles.*",
+            )
         except HTTPException:
-            return await message.reply("> *Failed to create the role.*")
+            return await message.reply(
+                "> *Failed to create the role.*",
+            )
 
-    async def delete_role(self, message, role_name):
-        role = discord.utils.get(message.guild.roles, name=role_name)
+    async def delete_role(self: "Transcribe", message, role_name):
+        role = discord.utils.get(
+            message.guild.roles,
+            name=role_name,
+        )
         if role:
             try:
                 await role.delete()
@@ -156,9 +172,13 @@ class Transcribe(Cog):
                     "> *I don't have permission to delete roles.*"
                 )
             except HTTPException:
-                return await message.reply("> *Failed to delete the role.*")
+                return await message.reply(
+                    "> *Failed to delete the role.*",
+                )
         else:
-            return await message.reply(f"> *Role {role_name} not found.*")
+            return await message.reply(
+                f"> *Role {role_name} not found.*",
+            )
 
 
 async def setup(bot: Opium):

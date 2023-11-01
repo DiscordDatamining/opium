@@ -14,7 +14,8 @@ from discord import (
     Message,
     Status,
 )
-from discord.ext.commands import Bot, CommandError, Context
+from discord.ext.commands import Bot, CommandError
+from discord.ext.commands import Context as DiscordContext
 from redis.asyncio import Redis
 from terminut import BetaConsole
 from terminut import inputf as input
@@ -23,6 +24,7 @@ from terminut import printf as print
 
 from core.config import Api, Authorization, db
 from core.database import database
+from core.managers.context import Context
 
 
 class Opium(Bot):
@@ -47,6 +49,9 @@ class Opium(Bot):
             token=Authorization.token,
             log_handler=None,
         )
+
+    async def get_context(self, message, *, cls=None):
+        return await super().get_context(message, cls=Context)
 
     async def handle(self, request):
         return web.Response(
