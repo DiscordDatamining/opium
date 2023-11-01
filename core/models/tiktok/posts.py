@@ -26,13 +26,13 @@ class TikTokModel(BaseModel):
             ) as r:
                 return await r.json()
 
-    async def get_video(self: "TikTokModel", video_link: str) -> dict:
+    async def get_video(self: "TikTokModel", video_link: str = None) -> dict:
         """
         Get's a tiktok video
         """
         async with ClientSession() as cs:
             async with cs.get(
-                url=f"{self.url}/tiktok/{video_link}",
+                url=f"{self.url}/tiktok/{video_link if video_link else ''}",
                 headers=self.headers,
             ) as r:
                 return await r.json()
