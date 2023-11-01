@@ -41,18 +41,22 @@ class Transcribe(Cog):
                             with sr.AudioFile(wav_path) as source:
                                 audio_data = recognizer.record(source)
                                 text = recognizer.recognize_google(audio_data)
-
                                 permissions = message.author.guild_permissions
-
+                                await message.reply(
+                                    embed=Embed(
+                                        description=f"> 💤 {text}",
+                                        color=Color.regular,
+                                    )
+                                )
                                 if "opium create a text Channel called" in text:
                                     if permissions.manage_channels:
                                         name = text.replace(
                                             "opium create a text Channel called",
                                             "",
                                         ).strip()
-                                        await self.create_channel(message, name)
+                                        return await self.create_channel(message, name)
                                     else:
-                                        await message.reply(
+                                        return await message.reply(
                                             "> *You don't have permission to create channels.*"
                                         )
                                 elif "opium delete the channel called" in text:
@@ -61,9 +65,11 @@ class Transcribe(Cog):
                                             "opium delete the channel called",
                                             "",
                                         ).strip()
-                                        await self.delete_channel(message, channel_name)
+                                        return await self.delete_channel(
+                                            message, channel_name
+                                        )
                                     else:
-                                        await message.reply(
+                                        return await message.reply(
                                             "> *You don't have permission to delete channels.*"
                                         )
 
@@ -73,9 +79,11 @@ class Transcribe(Cog):
                                             "opium create a role called",
                                             "",
                                         ).strip()
-                                        await self.create_role(message, role_name)
+                                        return await self.create_role(
+                                            message, role_name
+                                        )
                                     else:
-                                        await message.reply(
+                                        return await message.reply(
                                             "> *You don't have permission to create roles.*"
                                         )
 
@@ -85,9 +93,11 @@ class Transcribe(Cog):
                                             "opium delete the role called",
                                             "",
                                         ).strip()
-                                        await self.delete_role(message, role_name)
+                                        return await self.delete_role(
+                                            message, role_name
+                                        )
                                     else:
-                                        await message.reply(
+                                        return await message.reply(
                                             "> *You don't have permission to delete roles.*"
                                         )
 
@@ -100,48 +110,58 @@ class Transcribe(Cog):
     async def create_channel(self, message, name):
         try:
             await message.guild.create_text_channel(name=name)
-            await message.reply(
+            return await message.reply(
                 f"> *I have created a text channel called* ***{name}***"
             )
         except Forbidden:
-            await message.reply("> *I don't have permission to create channels.*")
+            return await message.reply(
+                "> *I don't have permission to create channels.*"
+            )
         except HTTPException:
-            await message.reply("> *Failed to create the channel.*")
+            return await message.reply("> *Failed to create the channel.*")
 
     async def delete_channel(self, message, channel_name):
         channel = discord.utils.get(message.guild.channels, name=channel_name)
         if channel:
             try:
                 await channel.delete()
-                await message.reply(f"> *Channel {channel_name} deleted successfully.*")
+                return await message.reply(
+                    f"> *Channel {channel_name} deleted successfully.*"
+                )
             except Forbidden:
-                await message.reply("> *I don't have permission to delete channels.*")
+                return await message.reply(
+                    "> *I don't have permission to delete channels.*"
+                )
             except HTTPException:
-                await message.reply("> *Failed to delete the channel.*")
+                return await message.reply("> *Failed to delete the channel.*")
         else:
-            await message.reply(f"> *Channel {channel_name} not found.*")
+            return await message.reply(f"> *Channel {channel_name} not found.*")
 
     async def create_role(self, message, role_name):
         try:
             await message.guild.create_role(name=role_name)
-            await message.reply(f"> *Role {role_name} created successfully.*")
+            return await message.reply(f"> *Role {role_name} created successfully.*")
         except Forbidden:
-            await message.reply("> *I don't have permission to create roles.*")
+            return await message.reply("> *I don't have permission to create roles.*")
         except HTTPException:
-            await message.reply("> *Failed to create the role.*")
+            return await message.reply("> *Failed to create the role.*")
 
     async def delete_role(self, message, role_name):
         role = discord.utils.get(message.guild.roles, name=role_name)
         if role:
             try:
                 await role.delete()
-                await message.reply(f"> *Role {role_name} deleted successfully.*")
+                return await message.reply(
+                    f"> *Role {role_name} deleted successfully.*"
+                )
             except Forbidden:
-                await message.reply("> *I don't have permission to delete roles.*")
+                return await message.reply(
+                    "> *I don't have permission to delete roles.*"
+                )
             except HTTPException:
-                await message.reply("> *Failed to delete the role.*")
+                return await message.reply("> *Failed to delete the role.*")
         else:
-            await message.reply(f"> *Role {role_name} not found.*")
+            return await message.reply(f"> *Role {role_name} not found.*")
 
 
 async def setup(bot: Opium):
