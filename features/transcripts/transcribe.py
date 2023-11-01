@@ -1,16 +1,18 @@
 import os
+from os import remove
 
 import speech_recognition as sr
-from discord.ext.commands import Cog, command, group
-from discord import Message
+from discord import Embed, Message
+from discord.ext.commands import Cog
 from pydub import AudioSegment
+
+from core.config import Color
 from core.opium import Opium
-from os import remove
 
 
 class Transcribe(Cog):
     """
-    Transcribes messages sen't from a discord channel
+    Transcribes messages sent from a discord channel
     """
 
     def __init__(self: "Transcribe", bot: Opium):
@@ -25,33 +27,34 @@ class Transcribe(Cog):
             if message.attachments:
                 for attachment in message.attachments:
                     if attachment.filename.endswith(".ogg"):
-                        await message.channel.send("working on it rq..")
-                        file_path = f"./{attachment.filename}"
-                        await attachment.save(file_path)
+                        async with message.channel.typing():
+                            file_path = f"./{attachment.filename}"
+                            await attachment.save(file_path)
 
-                        audio = AudioSegment.from_ogg(file_path)
-                        wav_path = file_path.replace(".ogg", ".wav")
-                        audio.export(wav_path, format="wav")
+                            audio = AudioSegment.from_ogg(file_path)
+                            wav_path = file_path.replace(".ogg", ".wav")
+                            audio.export(wav_path, format="wav")
 
-                        recognizer = sr.Recognizer()
-                        with sr.AudioFile(wav_path) as source:
-                            audio_data = recognizer.record(source)
-                            try:
-                                text = recognizer.recognize_google(audio_data)
-                                await message.channel.send(f"```\n{text}```")
-                            except sr.UnknownValueError:
-                                await message.channel.send(
-                                    "Could not understand the audio..."
-                                )
-                            except sr.RequestError as e:
-                                await message.channel.send(
-                                    f"Could not request results -> {e}"
-                                )
+                            recognizer = sr.Recognizer()
+                            with sr.AudioFile(wav_path) as source:
+                                audio_data = recognizer.record(source)
+                                try:
+                                    text = recognizer.recognize_google(audio_data)
+                                    await message.reply(
+                                        embed=Embed(
+                                            description=f"*{text}*",
+                                            color=Color.regular,
+                                        ),
+                                    )
+                                except sr.UnknownValueError:
+                                    pass
+                                except sr.RequestError as e:
+                                    pass
 
-                        remove(file_path)
-                        remove(wav_path)
+                            remove(file_path)
+                            remove(wav_path)
         except Exception as e:
-            return await message.channel.send(e)
+            await message.reply(f"An error occurred: {e}")
 
 
 async def setup(bot: Opium):
