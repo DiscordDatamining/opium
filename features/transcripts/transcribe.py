@@ -55,6 +55,9 @@ class Transcribe(Cog):
                                                 await message.guild.create_text_channel(
                                                     name=name,
                                                 )
+                                                return await message.reply(
+                                                    f"> *I have created a text channel called* ***{name}***",
+                                                )
                                             except Exception as e:
                                                 self.bot.log.error(
                                                     f"Couldn't create a text channel -> {e}"
