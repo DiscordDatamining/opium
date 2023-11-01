@@ -42,7 +42,7 @@ class Transcribe(Cog):
                                     text = recognizer.recognize_google(audio_data)
                                     await message.reply(
                                         embed=Embed(
-                                            description=f"*{text}*",
+                                            description=f"💤 > *{text}*",
                                             color=Color.regular,
                                         ),
                                     )
