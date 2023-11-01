@@ -20,4 +20,4 @@ class InstagramModel(BaseModel):
                 url=f"{self.url}/ig/user/{username}/stories",
                 headers=self.headers,
             )
-            return response.json()
+            return await response.json()
