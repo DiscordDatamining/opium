@@ -45,7 +45,7 @@ class Transcribe(Cog):
                                         in text
                                     ):
                                         name = text.replace(
-                                            "opium can you please create a text channel called",
+                                            "opium can you please create a text Channel called",
                                             "",
                                         )
                                         if (
