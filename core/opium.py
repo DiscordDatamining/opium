@@ -4,8 +4,16 @@ from typing import Any, Dict, Generator, List, Optional
 
 import asyncpg
 import redis
-from aiohttp import ClientSession
-from discord import AllowedMentions, Guild, Intents, Message, Status
+from aiohttp import ClientSession, web
+from discord import (
+    Activity,
+    ActivityType,
+    AllowedMentions,
+    Guild,
+    Intents,
+    Message,
+    Status,
+)
 from discord.ext.commands import Bot, CommandError, Context
 from redis.asyncio import Redis
 from terminut import BetaConsole
@@ -15,7 +23,6 @@ from terminut import printf as print
 
 from core.config import Api, Authorization, db
 from core.database import database
-from aiohttp import web
 
 
 class Opium(Bot):
@@ -28,6 +35,12 @@ class Opium(Bot):
                 everyone=False,
                 users=True,
                 roles=False,
+            ),
+            status=Status.idle,
+            activity=Activity(
+                type=ActivityType.custom(
+                    value="💤",
+                )
             ),
             intents=Intents.all(),
             owner_ids=Authorization.owner_ids,
