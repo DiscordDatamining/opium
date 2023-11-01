@@ -32,7 +32,10 @@ class TikTokModel(BaseModel):
         """
         async with ClientSession() as cs:
             async with cs.get(
-                url=f"{self.url}/tiktok/video/{video_link if video_link else ''}",
+                url=f"{self.url}/tiktok/video/",
                 headers=self.headers,
+                params={
+                    "id": f"{video_link if video_link else None}",
+                },
             ) as r:
                 return await r.json()
