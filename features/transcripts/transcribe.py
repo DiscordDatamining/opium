@@ -106,7 +106,7 @@ class Transcribe(Cog):
                                 remove(wav_path)
 
         except Exception as e:
-            await message.reply(f"An error occurred: {e}")
+            pass
 
     async def create_channel(self, message, name):
         try:
