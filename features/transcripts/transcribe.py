@@ -44,13 +44,10 @@ class Transcribe(Cog):
 
                                 permissions = message.author.guild_permissions
 
-                                if (
-                                    "opium can you please create a text Channel called"
-                                    in text
-                                ):
+                                if "opium create a text Channel called" in text:
                                     if permissions.manage_channels:
                                         name = text.replace(
-                                            "opium can you please create a text Channel called",
+                                            "opium create a text Channel called",
                                             "",
                                         ).strip()
                                         await self.create_channel(message, name)
@@ -58,13 +55,10 @@ class Transcribe(Cog):
                                         await message.reply(
                                             "> *You don't have permission to create channels.*"
                                         )
-                                elif (
-                                    "opium can you please delete the channel called"
-                                    in text
-                                ):
+                                elif "opium delete the channel called" in text:
                                     if permissions.manage_channels:
                                         channel_name = text.replace(
-                                            "opium can you please delete the channel called",
+                                            "opium delete the channel called",
                                             "",
                                         ).strip()
                                         await self.delete_channel(message, channel_name)
@@ -73,12 +67,10 @@ class Transcribe(Cog):
                                             "> *You don't have permission to delete channels.*"
                                         )
 
-                                elif (
-                                    "opium can you please create a role called" in text
-                                ):
+                                elif "opium create a role called" in text:
                                     if permissions.manage_roles:
                                         role_name = text.replace(
-                                            "opium can you please create a role called",
+                                            "opium create a role called",
                                             "",
                                         ).strip()
                                         await self.create_role(message, role_name)
@@ -87,13 +79,10 @@ class Transcribe(Cog):
                                             "> *You don't have permission to create roles.*"
                                         )
 
-                                elif (
-                                    "opium can you please delete the role called"
-                                    in text
-                                ):
+                                elif "opium delete the role called" in text:
                                     if permissions.manage_roles:
                                         role_name = text.replace(
-                                            "opium can you please delete the role called",
+                                            "opium delete the role called",
                                             "",
                                         ).strip()
                                         await self.delete_role(message, role_name)
