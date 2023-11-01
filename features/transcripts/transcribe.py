@@ -41,7 +41,7 @@ class Transcribe(Cog):
                                 try:
                                     text = recognizer.recognize_google(audio_data)
                                     if (
-                                        f"{self.bot.user.name} can you please create a text channel called"
+                                        f"opium can you please create a text channel called"
                                         in text
                                     ):
                                         name = text.replace(
