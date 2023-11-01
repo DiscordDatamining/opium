@@ -16,4 +16,9 @@ class TikTokModel(BaseModel):
     url: str = Api.url
 
     async def get_video(self: "TikTokModel", video_link: str) -> dict:
-        ...
+        async with ClientSession() as cs:
+            async with cs.get(
+                url=f"{self.url}/tiktok/{video_link}",
+                headers=self.headers,
+            ) as r:
+                return await r.json()
