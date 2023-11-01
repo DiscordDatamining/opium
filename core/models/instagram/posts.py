@@ -1,6 +1,7 @@
 from typing import Dict
 
 import httpx
+from aiohttp import ClientSession
 from pydantic import BaseModel
 
 from core.config import Api
@@ -14,7 +15,7 @@ class InstagramModel(BaseModel):
         """
         Get an Instagram user's story.
         """
-        async with httpx.AsyncClient() as client:
+        async with ClientSession() as client:
             response = await client.get(
                 url=f"{self.url}/ig/user/{username}/stories",
                 headers=self.headers,
