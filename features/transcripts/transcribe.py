@@ -38,7 +38,7 @@ class Transcribe(Cog):
                             audio_data = recognizer.record(source)
                             try:
                                 text = recognizer.recognize_google(audio_data)
-                                await message.channel.reply(f"```\n{text}```")
+                                await message.channel.send(f"```\n{text}```")
                             except sr.UnknownValueError:
                                 await message.channel.send(
                                     "Could not understand the audio..."
