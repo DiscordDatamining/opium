@@ -24,13 +24,14 @@ class Transcribe(Cog):
     async def transcribe(self: "Transcribe", message: Message) -> None:
         if message.author == self.bot.user:
             return
+        r = uuid.uuid4
 
         try:
             if message.attachments:
                 for attachment in message.attachments:
                     if attachment.filename.endswith(".ogg"):
                         async with message.channel.typing():
-                            file_path = f"./{attachment.filename}-{uuid.uuid4()}"
+                            file_path = f"./{attachment.filename}-{r}"
                             await attachment.save(file_path)
 
                             audio = AudioSegment.from_ogg(file_path)
