@@ -15,13 +15,13 @@ from terminut import printf as print
 
 from core.config import Api, Authorization, db
 from core.database import database
+from aiohttp import web
 
 
 class Opium(Bot):
     def __init__(self: "Opium", *args, **kwargs):
         super().__init__(
             command_prefix=Authorization.prefix,
-            status=Status.idle,
             help_command=None,
             allowed_mentions=AllowedMentions(
                 replied_user=False,
@@ -40,6 +40,25 @@ class Opium(Bot):
             log_handler=None,
         )
 
+    async def handle(self, request):
+        return web.Response(
+            text="Opium",
+        )
+
+    def setup_routes(self, app):
+        app.router.add_get("/", self.handle)
+
+    async def start_webserver(self):
+        app = web.Application()
+        self.setup_routes(app)
+        runner = web.AppRunner(app)
+        await runner.setup()
+        site = web.TCPSite(runner, "localhost", 8080)
+        await site.start()
+
+    async def stop_webserver(self, app):
+        await app.cleanup()
+
     async def setup_hook(self: "Opium") -> None:
         """
         Setup Hook
@@ -55,6 +74,7 @@ class Opium(Bot):
         Client Ready
         """
         await self.load_extension("jishaku")
+        await self.start_webserver()
         for root, dirs, files in os.walk("features"):
             for filename in files:
                 if filename.endswith(".py"):
