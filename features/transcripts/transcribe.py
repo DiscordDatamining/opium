@@ -42,12 +42,6 @@ class Transcribe(Cog):
                                 audio_data = recognizer.record(source)
                                 text = recognizer.recognize_google(audio_data)
                                 permissions = message.author.guild_permissions
-                                await message.reply(
-                                    embed=Embed(
-                                        description=f"> {text}",
-                                        color=Color.regular,
-                                    )
-                                )
 
                                 if "create a text Channel called" in text:
                                     if permissions.manage_channels:
@@ -98,7 +92,12 @@ class Transcribe(Cog):
                                         return await message.reply(
                                             "> *You don't have permission to delete roles.*"
                                         )
-
+                                await message.reply(
+                                    embed=Embed(
+                                        description=f"> {text}",
+                                        color=Color.regular,
+                                    )
+                                )
                                 remove(file_path)
                                 remove(wav_path)
 
