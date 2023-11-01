@@ -4,9 +4,11 @@ from discord import Embed, Guild, Member, Message
 from discord.ext.commands import Context as ContextConverter
 
 from core.config import Color
+from core.opium import Opium
 
 
 class Context(ContextConverter):
+    bot: "Opium"
     user: Member
     guild: Guild
     message: Message
