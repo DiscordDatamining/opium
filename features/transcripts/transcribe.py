@@ -40,6 +40,25 @@ class Transcribe(Cog):
                                 audio_data = recognizer.record(source)
                                 try:
                                     text = recognizer.recognize_google(audio_data)
+                                    if (
+                                        f"{self.bot.user.name} can you please create a text channel called"
+                                        in text
+                                    ):
+                                        name = text.replace(
+                                            "opium can you please create a text channel called",
+                                            "",
+                                        )
+                                        if (
+                                            message.author.guild_permissions.manage_channels
+                                        ):
+                                            try:
+                                                await message.guild.create_text_channel(
+                                                    name=name,
+                                                )
+                                            except Exception as e:
+                                                self.bot.log.error(
+                                                    f"Couldn't create a text channel -> {e}"
+                                                )
                                     await message.reply(
                                         embed=Embed(
                                             description=f"> 💤 *{text}*",
