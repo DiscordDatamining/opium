@@ -94,7 +94,7 @@ class Transcribe(Cog):
                                         )
                                 await message.reply(
                                     embed=Embed(
-                                        description=f"> {text}",
+                                        description=f"> *{text}*",
                                         color=Color.regular,
                                     )
                                 )
