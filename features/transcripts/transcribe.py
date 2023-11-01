@@ -95,7 +95,7 @@ class Transcribe(Cog):
                                 remove(wav_path)
 
         except Exception as e:
-            pass
+            return self.bot.log.error(e)
 
     async def create_channel(self, message, name):
         try:
