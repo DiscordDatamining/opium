@@ -15,8 +15,8 @@ class Api:
     url: str = "https://api.ermm.tech"
     key: str = ""
     headers: dict() = {
-        "Authorization": "ownership",
-        "X-username": "wise",
+        "Authorization": "gAAAAABlQns7YfamuD0nNT6g-CXdEYJdQ8MuDghAe67WSTxqFM9EfNtQ6FrrQWb_m5vphrrHSaU8iJ4hFRDhU0SzzLAiemYnFw==",
+        "X-username": "sipher",
     }
 
 
