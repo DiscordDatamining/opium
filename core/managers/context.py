@@ -114,14 +114,11 @@ class Help(MinimalHelpCommand):
         for cog, commands in mapping.items():
             if cog is None:
                 continue
-        for cog_name, cog in self.context.bot.cogs.items():
-            if "jishaku" in cog_name.lower():
-                continue
 
             filtered_commands = await self.filter_commands(commands, sort=True)
             if filtered_commands:
                 embed = Embed(
-                    title=f"{cog.qualified_name} Commands",
+                    title=f"{cog.qualified_name}",
                     color=Color.invis,
                 )
 
@@ -145,17 +142,17 @@ class Help(MinimalHelpCommand):
         """
         Send the embed for help on a command.
         """
-        embed = Embed(color=0x00FF00)
+        embed = Embed(color=Color.invis)
 
         embed.description = (
             f"`{self.context.prefix}{command.name} {command.signature}`\n"
         )
 
         if command.aliases:
-            embed.description += f"\n**Aliases:** {', '.join(command.aliases)}"
+            embed.description += f"***Aliases:*** {', '.join(command.aliases)}"
 
         embed.description += (
-            f"\n\n{command.help or '*No detailed description available.*'}"
+            f"\n\n{f'*{command.help}*' or '*No detailed description available.*'}"
         )
 
         return await self.context.send(embed=embed)
