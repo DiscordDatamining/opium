@@ -75,7 +75,7 @@ class Opium(Bot):
         Setup Hook
         """
         self.log = log
-        self.db = await database.connect(self=database())
+        self.db = await database.connect()
         self.session = ClientSession()
 
         self.log.success("Setup hook was executed!")

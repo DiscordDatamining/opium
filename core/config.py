@@ -21,11 +21,11 @@ class Api:
 
 
 class db:
-    host: str = ""
-    user: str = ""
-    port: str = ""
-    database: str = ""
-    password: str = ""
+    host: str = "db.vdukveeoxwifoqdketql.supabase.co"
+    user: str = "postgres"
+    port: str = "5432"
+    database: str = "postgres"
+    password: str = "101908tjmmm4"
 
 
 class Color:
