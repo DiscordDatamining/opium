@@ -122,11 +122,16 @@ class Help(MinimalHelpCommand):
                     color=Color.invis,
                 )
 
-                for command in filtered_commands:
-                    has_subcommands = "*" if isinstance(command, Group) else ""
-                    aliases = "|".join(command.aliases)
-                    aliases_str = f"[{aliases}]" if aliases else ""
-                    embed.description += f"\n{has_subcommands}{command.name} {aliases_str} - {command.short_doc}"
+            for command in filtered_commands:
+                has_subcommands = "*" if isinstance(command, Group) else ""
+                aliases = "|".join(command.aliases)
+                aliases_str = f"[{aliases}]" if aliases else ""
+                command_info = f"\n{has_subcommands}{command.name} {aliases_str} - {command.short_doc}"
+
+                if embed.description:
+                    embed.description += command_info
+                else:
+                    embed.description = command_info
 
                 pages.append(embed)
 
