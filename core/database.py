@@ -21,9 +21,15 @@ class database:
         """
         try:
             await create_pool(
-                f"postgres://{self.user}:{self.password}@{self.host}/{self.database}"
+                **{
+                    "host": self.host,
+                    "user": self.user,
+                    "port": self.port,
+                    "database": self.database,
+                    "password": self.password,
+                }
             )
             log.success("PostgreSQL database connected successfully.")
 
         except Exception as e:
-            pass
+            log.fatal(f"Couldn't connect to the database -> {e}")
