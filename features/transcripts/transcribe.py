@@ -40,13 +40,13 @@ class Transcribe(Cog):
                             recognizer = sr.Recognizer()
                             with sr.AudioFile(wav_path) as source:
                                 audio_data = recognizer.record(source)
-                                text = recognizer.recognize_google(audio_data)
+                                text = recognizer.recognize_google(audio_data).lower()
                                 permissions = message.author.guild_permissions
 
-                                if "create a text Channel called" in text:
+                                if "create a text channel called" in text:
                                     if permissions.manage_channels:
                                         name = text.replace(
-                                            "create a text Channel called", ""
+                                            "create a text channel called", ""
                                         ).strip()
                                         return await self.create_channel(message, name)
                                     else:
