@@ -13,7 +13,7 @@ class InstagramModel(BaseModel):
 
     async def get_user_story(self, username: str) -> Dict:
         """
-        Get an Instagram user's story.
+        Get an Instagram user story.
         """
         async with ClientSession() as client:
             response = await client.get(

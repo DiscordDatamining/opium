@@ -17,7 +17,7 @@ class TikTokModel(BaseModel):
 
     async def random_video(self: "TikTokModel") -> None:
         """
-        Get's a random tiktok video
+        Get a random tiktok video
         """
         async with ClientSession() as cs:
             async with cs.get(
@@ -28,7 +28,7 @@ class TikTokModel(BaseModel):
 
     async def get_video(self: "TikTokModel", video_link: str = None) -> dict:
         """
-        Get's a tiktok video
+        Get a tiktok video
         """
         async with ClientSession() as cs:
             async with cs.get(

@@ -11,6 +11,27 @@ class Context(ContextConverter):
     guild: Guild
     message: Message
 
+    async def neutral(
+        self: "Context",
+        description: str,
+        *args,
+        image: Optional[str] = None,
+        title: Optional[str] = None,
+        **kwargs,
+    ) -> Message:
+        """
+        Neutral embed
+        """
+        embed: Embed = Embed()
+        embed.color = Color.invis if Color.invis else 0x2B2D31
+        if description:
+            embed.description = f"> {description}"
+        if title:
+            embed.title = title
+        if image:
+            embed.image(url=image if image else None)
+        return await self.send(embed=embed, *args, **kwargs)
+
     async def deny(
         self: "Context",
         description: str,
