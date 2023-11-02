@@ -24,11 +24,11 @@ class database:
 
             await create_pool(
                 **{
-                    "host": self.host,
-                    "user": self.user,
-                    "port": self.port,
-                    "database": self.database,
-                    "password": self.password,
+                    "host": db.host,
+                    "user": db.user,
+                    "port": db.port,
+                    "database": db.database,
+                    "password": db.password,
                 }
             )
             log.success("PostgreSQL database connected successfully.")
