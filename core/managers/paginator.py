@@ -82,7 +82,7 @@ class paginator:
                         msg = await self.bot.wait_for(
                             "message", check=check_msg, timeout=self.timeout
                         )
-                        page_num = int(msg.content)
+                        page_num = int(msg.content) - 1
                         if 0 <= page_num < len(self.pages):
                             self.current_page = page_num
                         await msg.delete()
