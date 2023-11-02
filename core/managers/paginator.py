@@ -1,22 +1,22 @@
 from typing import List, Optional, Union
 from discord import Embed, Member, Message, Reaction, User
-from discord.ext import commands
+from discord.ext.commands import Context
 
 
 class paginator:
     def __init__(
         self,
-        ctx: commands.Context,
+        ctx: Context,
         pages: List[Union[Embed, str]],
         timeout: int = 60,
         use_embed: bool = True,
     ) -> None:
-        self.ctx: commands.Context = ctx
+        self.ctx: Context = ctx
         self.pages: List[Union[Embed, str]] = pages
         self.timeout: int = timeout
         self.current_page: int = 0
         self.use_embed: bool = use_embed
-        self.reactions: List[str] = ["⬅️", "⏸", "➡️"]
+        self.reactions: List[str] = ["⬅️", "🚮", "➡️", "🔢"]
         self.message: Optional[Message] = None
         self.bot = ctx.bot
 
@@ -30,6 +30,7 @@ class paginator:
             )
         else:
             page_content += f"\n\nPage {self.current_page + 1} of {len(self.pages)}"
+
         return page_content
 
     async def start(self) -> None:
@@ -69,13 +70,28 @@ class paginator:
                 elif str(reaction.emoji) == "⬅️" and self.current_page > 0:
                     self.current_page -= 1
 
-                # elif str(reaction.emoji) == "⏩":
-                #     self.current_page = len(self.pages) - 1
+                elif str(reaction.emoji) == "🔢":
+                    await self.message.delete()
+                    response_message = await self.ctx.send(
+                        "Which page would you like to go to?"
+                    )
 
-                # elif str(reaction.emoji) == "⏪":
-                #     self.current_page = 0
+                    def check_msg(m):
+                        return m.author == self.ctx.author and m.content.isdigit()
 
-                elif str(reaction.emoji) == "⏸":
+                    try:
+                        msg = await self.bot.wait_for(
+                            "message", check=check_msg, timeout=self.timeout
+                        )
+                        page_num = int(msg.content)
+                        if 0 <= page_num < len(self.pages):
+                            self.current_page = page_num
+                        await msg.delete()
+                        await response_message.delete()
+                    except Exception as e:
+                        pass
+
+                elif str(reaction.emoji) == "🚮":
                     await self.message.delete()
                     return
 
