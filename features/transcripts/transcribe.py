@@ -1,4 +1,5 @@
 import os
+import uuid
 from os import remove
 
 import discord
@@ -9,7 +10,6 @@ from pydub import AudioSegment
 
 from core.config import Color
 from core.opium import Opium
-import uuid
 
 
 class Transcribe(Cog):
@@ -115,7 +115,9 @@ class Transcribe(Cog):
                 "> *I don't have permission to create channels.*"
             )
         except HTTPException:
-            return await message.reply("> *Failed to create the channel.*")
+            return await message.reply(
+                "> *Failed to create the channel.*",
+            )
 
     async def delete_channel(self: "Transcribe", message, channel_name):
         channel = discord.utils.get(

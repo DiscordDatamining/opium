@@ -1,8 +1,9 @@
 from typing import Dict, List, Optional
 
 from asyncpg import create_pool
-from core.config import Authorization, db
 from pydantic import BaseModel
+
+from core.config import Authorization, db
 
 
 class database(BaseModel):
