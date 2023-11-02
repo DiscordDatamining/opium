@@ -17,6 +17,7 @@ class Context(ContextConverter):
         *args,
         image: Optional[str] = None,
         title: Optional[str] = None,
+        url: Optional[str] = None,
         **kwargs,
     ) -> Message:
         """
@@ -24,12 +25,16 @@ class Context(ContextConverter):
         """
         embed: Embed = Embed()
         embed.color = Color.invis if Color.invis else 0x2B2D31
+
         if description:
             embed.description = f"> {description}"
         if title:
             embed.title = title
+            if url:
+                embed.url = url if url else None
         if image:
             embed.set_image(url=image if image else None)
+
         return await self.send(embed=embed, *args, **kwargs)
 
     async def deny(
@@ -43,6 +48,7 @@ class Context(ContextConverter):
         """
         embed: Embed = Embed()
         embed.color = Color.deny if Color.deny else 0xF23F43
+
         if description:
             embed.description = f"> {description}"
 
@@ -60,6 +66,7 @@ class Context(ContextConverter):
         """
         embed: Embed = Embed()
         embed.color = color if color else Color.regular
+
         if description:
             embed.description = f"> {description}"
 

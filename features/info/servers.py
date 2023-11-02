@@ -31,6 +31,7 @@ class Info(Cog):
         return await ctx.neutral(
             title="%s's Avatar" % member.name,
             image=member.display_avatar.url,
+            url=member.display_avatar.url,
         )
 
 
