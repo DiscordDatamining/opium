@@ -13,7 +13,7 @@ class Context(ContextConverter):
 
     async def neutral(
         self: "Context",
-        description: str,
+        description: Optional[str] = None,
         *args,
         image: Optional[str] = None,
         title: Optional[str] = None,
