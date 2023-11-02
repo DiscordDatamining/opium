@@ -16,7 +16,7 @@ class paginator:
         self.timeout: int = timeout
         self.current_page: int = 0
         self.use_embed: bool = use_embed
-        self.reactions: List[str] = ["⏪", "⬅️", "⏸", "➡️", "⏩"]
+        self.reactions: List[str] = ["⬅️", "⏸", "➡️"]
         self.message: Optional[Message] = None
         self.bot = ctx.bot
 
@@ -69,11 +69,11 @@ class paginator:
                 elif str(reaction.emoji) == "⬅️" and self.current_page > 0:
                     self.current_page -= 1
 
-                elif str(reaction.emoji) == "⏩":
-                    self.current_page = len(self.pages) - 1
+                # elif str(reaction.emoji) == "⏩":
+                #     self.current_page = len(self.pages) - 1
 
-                elif str(reaction.emoji) == "⏪":
-                    self.current_page = 0
+                # elif str(reaction.emoji) == "⏪":
+                #     self.current_page = 0
 
                 elif str(reaction.emoji) == "⏸":
                     await self.message.delete()
