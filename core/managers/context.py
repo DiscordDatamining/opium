@@ -23,7 +23,7 @@ class Context(ContextConverter):
         embed: Embed = Embed()
         embed.color = Color.deny if Color.deny else 0xF23F43
         if description:
-            embed.description = description
+            embed.description = f"> {description}"
 
         return await self.send(embed=embed, *args, **kwargs)
 
@@ -40,6 +40,6 @@ class Context(ContextConverter):
         embed: Embed = Embed()
         embed.color = color if color else Color.regular
         if description:
-            embed.description = description
+            embed.description = f"> {description}"
 
         return await self.send(embed=embed, *args, **kwargs)
