@@ -71,9 +71,8 @@ class paginator:
                     self.current_page -= 1
 
                 elif str(reaction.emoji) == "🔢":
-                    await self.message.delete()
-                    response_message = await self.ctx.send(
-                        "Which page would you like to go to?"
+                    response_message = await self.ctx.neutral(
+                        description="Which page would you like to go to?"
                     )
 
                     def check_msg(m):
