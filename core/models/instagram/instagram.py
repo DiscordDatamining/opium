@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 
 import httpx
 from aiohttp import ClientSession
@@ -11,16 +11,20 @@ class InstagramModel(BaseModel):
     url: str = Api.url
     headers: dict = Api.headers
 
-    async def get_user_media(self: "InstagramModel", username: str) -> Dict:
+    async def get_user_media(
+        self: "InstagramModel",
+        username: str,
+        limit: Optional[int] = 1,
+    ) -> Dict:
         """
-        Gets all media posts from the user
+        Gets an optional amount of media posts from the user
         """
         async with ClientSession() as cs:
             r = await cs.get(
                 url=f"{self.url}/ig/user/{username}/media",
                 headers=self.headers,
                 params={
-                    "amount": 5,
+                    "amount": limit,
                 },
             )
             return await r.json()
