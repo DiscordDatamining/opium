@@ -1,5 +1,4 @@
 from typing import List, Optional, Union
-
 from discord import Embed, Member, Message, Reaction, User
 from discord.ext import commands
 
@@ -17,25 +16,30 @@ class paginator:
         self.timeout: int = timeout
         self.current_page: int = 0
         self.use_embed: bool = use_embed
-        self.reactions: List[str] = [
-            "⬅️",
-            "➡️",
-            "⏪",
-            "⏩",
-            "⏸",
-        ]
+        self.reactions: List[str] = ["⏪", "⬅️", "⏸", "➡️", "⏩"]
         self.message: Optional[Message] = None
         self.bot = ctx.bot
 
-    async def start(self) -> None:
-        if self.use_embed:
-            self.message = await self.ctx.send(
-                embed=self.pages[self.current_page],
+    def _set_footer(
+        self,
+        page_content: Union[Embed, str],
+    ) -> Union[Embed, str]:
+        if isinstance(page_content, Embed):
+            page_content.set_footer(
+                text=f"Page {self.current_page + 1} of {len(self.pages)}"
             )
         else:
-            self.message = await self.ctx.send(
-                self.pages[self.current_page],
-            )
+            page_content += f"\n\nPage {self.current_page + 1} of {len(self.pages)}"
+        return page_content
+
+    async def start(self) -> None:
+        content_with_footer = self._set_footer(
+            self.pages[self.current_page],
+        )
+        if self.use_embed:
+            self.message = await self.ctx.send(embed=content_with_footer)
+        else:
+            self.message = await self.ctx.send(content_with_footer)
 
         for reaction in self.reactions:
             await self.message.add_reaction(reaction)
@@ -77,14 +81,11 @@ class paginator:
 
                 await self.message.remove_reaction(reaction, user)
 
+                content_with_footer = self._set_footer(self.pages[self.current_page])
                 if self.use_embed:
-                    await self.message.edit(
-                        embed=self.pages[self.current_page],
-                    )
+                    await self.message.edit(embed=content_with_footer)
                 else:
-                    await self.message.edit(
-                        content=self.pages[self.current_page],
-                    )
+                    await self.message.edit(content=content_with_footer)
 
             except TimeoutError:
                 for reaction in self.reactions:
