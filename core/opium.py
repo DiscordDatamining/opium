@@ -14,11 +14,9 @@ from discord import (
     Message,
     Status,
 )
-from discord.ext.commands import Bot, CommandError
+from discord.ext.commands import Bot
 from discord.ext.commands import Context as DiscordContext
 from redis.asyncio import Redis
-from terminut import BetaConsole
-from terminut import inputf as input
 from terminut import log
 from terminut import printf as print
 

@@ -30,3 +30,4 @@ class db:
 
 class Color:
     regular: int = 0x2B2D31
+    deny: int = 0xF23F43
