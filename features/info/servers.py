@@ -27,6 +27,7 @@ class Info(Cog):
         """
         View someone's profile picture
         """
+        member = member or ctx.author
         return await ctx.neutral(
             title="%s's Avatar" % member.name,
             image=member.display_avatar.url,
