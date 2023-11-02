@@ -29,7 +29,7 @@ class Context(ContextConverter):
         if title:
             embed.title = title
         if image:
-            embed.image(url=image if image else None)
+            embed.set_image(url=image if image else None)
         return await self.send(embed=embed, *args, **kwargs)
 
     async def deny(
