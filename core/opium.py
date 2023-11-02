@@ -22,14 +22,14 @@ from terminut import printf as print
 
 from core.config import Api, Authorization, db
 from core.database import database
-from core.managers.context import Context, Help
+from core.managers.context import Context
 
 
 class Opium(Bot):
     def __init__(self: "Opium", *args, **kwargs):
         super().__init__(
             command_prefix=Authorization.prefix,
-            help_command=Help(),
+            help_command=None,
             allowed_mentions=AllowedMentions(
                 replied_user=False,
                 everyone=False,
