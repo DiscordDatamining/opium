@@ -29,7 +29,7 @@ class Info(Cog):
         """
         member = member or ctx.author
         return await ctx.neutral(
-            title="%s's Avatar" % member.name,
+            title="***%s's avatar***" % member.name,
             image=member.display_avatar.url,
             url=member.display_avatar.url,
         )
