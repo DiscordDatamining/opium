@@ -15,7 +15,7 @@ class InstagramModel(BaseModel):
         self: "InstagramModel",
         username: str,
         limit: Optional[int] = 1,
-    ) -> Dict:
+    ) -> None:
         """
         Gets an optional amount of media posts from the user
         """
