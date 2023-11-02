@@ -1,15 +1,36 @@
-from typing import Dict, Optional
+from typing import List, Optional, Union
 
 from discord import Embed, Guild, Member, Message
 from discord.ext.commands import Context as ContextConverter
 
 from core.config import Color
+from core.managers.paginator import paginator
 
 
 class Context(ContextConverter):
     user: Member
     guild: Guild
     message: Message
+
+    async def paginate(
+        self: "Context",
+        pages: List[Union[Embed, str]],
+        timeout: int = 60,
+        use_embed: bool = True,
+        *args,
+        **kwargs,
+    ) -> Message:
+        """
+        Paginates the provided pages
+        """
+        paginated = paginator(
+            self,
+            pages=pages,
+            timeout=timeout,
+            use_embed=use_embed,
+        )
+        await paginated.start()
+        return paginated.message
 
     async def neutral(
         self: "Context",

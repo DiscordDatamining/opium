@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Optional
 
 import httpx
 from aiohttp import ClientSession
@@ -26,7 +26,7 @@ class TikTokModel(BaseModel):
             ) as r:
                 return await r.json()
 
-    async def get_video(self: "TikTokModel", video_link: str = None) -> dict:
+    async def get_video(self: "TikTokModel", video_link: Optional[str] = None) -> Dict:
         """
         Get a tiktok video
         """
