@@ -1,7 +1,9 @@
 from typing import List, Optional, Union
 
 from discord import Embed, Guild, Member, Message
+from discord.ext.commands import Command
 from discord.ext.commands import Context as ContextConverter
+from discord.ext.commands import Group, MinimalHelpCommand
 
 from core.config import Color
 from core.managers.paginator import paginator
@@ -92,3 +94,49 @@ class Context(ContextConverter):
             embed.description = f"> {description}"
 
         return await self.send(embed=embed, *args, **kwargs)
+
+
+class Help(MinimalHelpCommand):
+    context: Context
+
+    def __init__(self, *args, **options):
+        super().__init__(
+            command_attrs={
+                "aliases": ["h", "cmd", "command"],
+            },
+            *args,
+            **options,
+        )
+
+    async def send_bot_help(self, mapping):
+        pages: List[Union[Embed, str]] = []
+
+        for cog, commands in mapping.items():
+            filtered_commands = await self.filter_commands(commands, sort=True)
+            if filtered_commands:
+                embed = Embed(title=f"{cog.qualified_name} Commands", color=0x00FF00)
+                for command in filtered_commands:
+                    embed.add_field(
+                        name=command.name, value=command.short_doc, inline=False
+                    )
+                pages.append(embed)
+
+        if len(pages) == 1:
+            await self.context.send(embed=pages[0])
+        else:
+            p = paginator(self.context, pages)
+            await p.start()
+
+    async def send_command_help(self, command: Command):
+        embed = Embed(title=command.name, color=Color.invis)
+        embed.description = command.help or "*No help command provided*"
+
+        if isinstance(command, Group):
+            subcommands = command.commands
+            if subcommands:
+                embed.add_field(
+                    name="Subcommands",
+                    value="\n".join([c.name for c in subcommands]),
+                )
+
+        await self.context.send(embed=embed)
