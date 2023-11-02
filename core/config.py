@@ -23,7 +23,7 @@ class Api:
 class db:
     host: str = "db.vdukveeoxwifoqdketql.supabase.co"
     user: str = "postgres"
-    port: str = "5432"
+    port: int = 5432
     database: str = "postgres"
     password: str = "101908tjmmm4"
 

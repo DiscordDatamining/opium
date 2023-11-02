@@ -20,6 +20,8 @@ class database:
         Connects to the database
         """
         try:
+            log.info(f"Attempting to connect to database at {self.host}:{self.port}")
+
             await create_pool(
                 **{
                     "host": self.host,
