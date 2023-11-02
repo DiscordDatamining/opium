@@ -7,7 +7,7 @@ from terminut import log
 from core.config import Authorization, db
 
 
-class database(BaseModel):
+class database:
     lost: log
     host: str = db.host
     user: str = db.user
