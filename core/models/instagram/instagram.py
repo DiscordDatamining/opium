@@ -19,6 +19,9 @@ class InstagramModel(BaseModel):
             r = await cs.get(
                 url=f"{self.url}/ig/user/{username}/media",
                 headers=self.headers,
+                params={
+                    "amount": 5,
+                },
             )
             return await r.json()
 
