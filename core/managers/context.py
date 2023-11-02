@@ -112,31 +112,36 @@ class Help(MinimalHelpCommand):
         pages: List[Union[Embed, str]] = []
 
         for cog, commands in mapping.items():
+            if cog is None:
+                continue
+
             filtered_commands = await self.filter_commands(commands, sort=True)
             if filtered_commands:
-                embed = Embed(title=f"{cog.qualified_name} Commands", color=0x00FF00)
+                embed = Embed(
+                    title=f"{cog.qualified_name} Commands",
+                    color=Color.invis,
+                )
+
                 for command in filtered_commands:
-                    embed.add_field(
-                        name=command.name, value=command.short_doc, inline=False
-                    )
+                    has_subcommands = "*" if isinstance(command, Group) else ""
+                    aliases = "|".join(command.aliases)
+                    aliases_str = f"[{aliases}]" if aliases else ""
+                    embed.description += f"\n{has_subcommands}{command.name} {aliases_str} - {command.short_doc}"
+
                 pages.append(embed)
 
-        if len(pages) == 1:
-            await self.context.send(embed=pages[0])
-        else:
-            p = paginator(self.context, pages)
-            await p.start()
+        p = paginator(self.context, pages)
+        await p.start()
 
     async def send_command_help(self, command: Command):
-        embed = Embed(title=command.name, color=Color.invis)
-        embed.description = command.help or "*No help command provided*"
+        embed = Embed(title=command.name, color=0x00FF00)
+        embed.description = command.help or "No help provided..."
 
         if isinstance(command, Group):
             subcommands = command.commands
             if subcommands:
                 embed.add_field(
-                    name="Subcommands",
-                    value="\n".join([c.name for c in subcommands]),
+                    name="Subcommands", value="\n".join([c.name for c in subcommands])
                 )
 
         await self.context.send(embed=embed)
