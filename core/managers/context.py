@@ -6,6 +6,7 @@ from typing import (
     List,
     Mapping,
     Optional,
+    Tuple,
     Union,
 )
 
@@ -50,7 +51,12 @@ class Context(ContextConverter):
         *args,
         image: Optional[str] = None,
         title: Optional[str] = None,
+        thumbnail: Optional[str] = None,
+        footer: Optional[str] = None,
+        author: Optional[str] = None,
+        authoricon: Optional[str] = None,
         url: Optional[str] = None,
+        fields: Optional[List[Tuple[str, str, bool]]] = None,
         **kwargs,
     ) -> Message:
         """
@@ -67,6 +73,15 @@ class Context(ContextConverter):
                 embed.url = url if url else None
         if image:
             embed.set_image(url=image if image else None)
+        if thumbnail:
+            embed.set_thumbnail(url=thumbnail)
+        if footer:
+            embed.set_footer(text=footer)
+        if author:
+            embed.set_author(name=author, icon_url=authoricon if authoricon else None)
+        if fields:
+            for name, value, inline in fields:
+                embed.add_field(name=name, value=value, inline=inline)
 
         return await self.send(embed=embed, *args, **kwargs)
 
