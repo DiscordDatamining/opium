@@ -60,7 +60,10 @@ class Instagram(Cog):
         """
         Gets multiple stories on a instagram user
         """
-        user = await self.InstagramModel.get_user_story(username=username)
+        user = await self.InstagramModel.get_user_story(
+            username=username,
+            limit=limit,
+        )
         if not user:
             return await ctx.deny("No stories found on this user!")
 
