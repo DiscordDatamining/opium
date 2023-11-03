@@ -71,9 +71,8 @@ class Instagram(Cog):
             await ctx.paginate(
                 use_embed=False,
                 pages=[
-                    f"[Download Video]({u['video_url']})"
+                    f"[Download Video]({u['video_url'] if u['video_url'] is not None else u['thumbnail_url']})"
                     for u in user
-                    if u["video_url"] is not None
                 ],
             )
 
