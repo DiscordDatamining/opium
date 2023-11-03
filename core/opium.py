@@ -36,7 +36,11 @@ class Opium(Bot):
                 users=True,
                 roles=False,
             ),
-            status=Status.idle,
+            status=Status.dnd,
+            activity=Activity(
+                type=ActivityType.custom,
+                state="geeked up, not opium enough",
+            ),
             intents=Intents.all(),
             owner_ids=Authorization.owner_ids,
             case_insensitive=True,
