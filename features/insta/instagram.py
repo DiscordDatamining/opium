@@ -38,18 +38,18 @@ class Instagram(Cog):
             return await ctx.deny(
                 "That user wasn't found on instagram.",
             )
-
-        return await ctx.neutral(
-            description=user["biography"],
-            thumbnail=user["profile_pic_url_hd"],
-            authoricon=ctx.author.display_avatar.url,
-            fields=[
-                ("Followers", f'{user["follower_count"]:,}', True),
-                ("Following", f'{user["following_count"]:,}', True),
-                ("Media", f'{user["media_count"]:,}', True),
-            ],
-            author=f"{user['full_name'] if user['full_name'] else ''} ({username})",
-        )
+        async with ctx.typing():
+            return await ctx.neutral(
+                description=user["biography"],
+                thumbnail=user["profile_pic_url_hd"],
+                authoricon=ctx.author.display_avatar.url,
+                fields=[
+                    ("Followers", f'{user["follower_count"]:,}', True),
+                    ("Following", f'{user["following_count"]:,}', True),
+                    ("Media", f'{user["media_count"]:,}', True),
+                ],
+                author=f"{user['full_name'] or ''} ({username})",
+            )
 
 
 async def setup(bot: Opium) -> Opium:
