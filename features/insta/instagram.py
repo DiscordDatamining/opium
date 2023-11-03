@@ -60,14 +60,14 @@ class Instagram(Cog):
         """
         Gets multiple stories on a instagram user
         """
-        user = await self.InstagramModel.get_user_story(
-            username=username,
-            limit=limit,
-        )
-        if not user:
-            return await ctx.deny("No stories found on this user!")
-
         async with ctx.typing():
+            user = await self.InstagramModel.get_user_story(
+                username=username,
+                limit=limit,
+            )
+            if not user:
+                return await ctx.deny("No stories found on this user!")
+
             await ctx.paginate(
                 use_embed=False,
                 pages=[f"[Download Video]({u['video_url']})" for u in user],
