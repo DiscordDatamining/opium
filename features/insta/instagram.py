@@ -75,6 +75,7 @@ class Instagram(Cog):
                     else user[0]["thumbnail_url"]
                 )
                 return await ctx.send(f"[Download Video]({video_url})")
+
             else:
                 return await ctx.paginate(
                     use_embed=False,
