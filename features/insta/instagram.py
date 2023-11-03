@@ -8,7 +8,10 @@ class Instagram(Cog):
     Instagram
     """
 
-    def __init__(self: "Instagram", bot: "Opium"):
+    def __init__(
+        self: "Instagram",
+        bot: Opium,
+    ):
         self.bot: Opium = bot
         self.InstagramModel = InstagramModel(
             cache=self.bot.cache,
