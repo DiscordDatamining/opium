@@ -51,7 +51,7 @@ class Context(ContextConverter):
         embed.color = Color.invis if Color.invis else 0x2B2D31
 
         if description:
-            embed.description = f"> {description}"
+            embed.description = f"{description}"
         if title:
             embed.title = title
             if url:
@@ -128,9 +128,13 @@ class Help(MinimalHelpCommand):
 
         for cog, commands in mapping.items():
             if cog:
-                cog_name = f"**{cog.qualified_name}**"
+                name = f"**{cog.qualified_name}**"
+                if "transcribe".lower() in name:
+                    continue
+                if "jishaku".lower() in name:
+                    continue
                 list = ", ".join([f"`{command.name}`" for command in commands])
-                r.append(f"{cog_name}:\n{list}\n")
+                r.append(f"{name}:\n{list}\n")
 
         m = "\n".join(r)
         w = (
