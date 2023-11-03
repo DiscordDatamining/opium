@@ -12,13 +12,12 @@ class Info(Cog):
     def __init__(self: "Info", bot: Opium) -> None:
         self.bot: Opium = Opium
 
-    @group(
+    @command(
         name="avatar",
         aliases=[
             "av",
             "pfp",
         ],
-        invoke_without_command=True,
     )
     async def avatar(
         self: "Info",
