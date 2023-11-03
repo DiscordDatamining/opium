@@ -25,6 +25,8 @@ class paginator:
         self,
         page_content: Union[Embed, str],
     ) -> Union[Embed, str]:
+        if page_content is None:
+            return f"Page {self.current_page + 1} of {len(self.pages)}"
         if isinstance(page_content, Embed):
             page_content.set_footer(
                 text=f"Page {self.current_page + 1} of {len(self.pages)}"
