@@ -112,15 +112,6 @@ class Help(MinimalHelpCommand):
             **options,
         )
 
-    async def send_bot_help(self, mapping):
-        for cog, commands in mapping.items():
-            if cog:
-                name = f"**{cog.qualified_name}**: "
-                list = ", ".join([command.name for command in commands])
-                m = f"{name}:\n{list}\n\n"
-
-        await self.context.reply(m, mention_author=False)
-
     async def command_not_found(self, string: str) -> str:
         return await self.context.deny(
             f"Command `{string}` was not found in my cogs!",
@@ -131,3 +122,23 @@ class Help(MinimalHelpCommand):
         Sends the error message
         """
         return await self.context.deny(error)
+
+    async def send_bot_help(self, mapping):
+        r = []
+
+        for cog, commands in mapping.items():
+            if cog:
+                cog_name = f"**{cog.qualified_name}**"
+                list = ", ".join([f"`{command.name}`" for command in commands])
+                r.append(f"{cog_name}:\n{list}\n")
+
+        m = "\n".join(r)
+        w = (
+            "To get details on a command, type `!help [command]`.\n"
+            "For a category, use `!help [category]`\n"
+            "Commands with a `*` have more options.\n\n"
+        )
+        return await self.context.reply(
+            f"{w}{m}",
+            mention_author=False,
+        )
