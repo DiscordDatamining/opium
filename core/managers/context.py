@@ -135,10 +135,8 @@ class Help(MinimalHelpCommand):
         m = "\n".join(r)
         w = (
             "To get details on a command, type `!help [command]`.\n"
-            "For a category, use `!help [category]`\n"
-            "Commands with a `*` have more options.\n\n"
+            "For a category, use `!help [category]`\n\n"
         )
-        return await self.context.reply(
-            f"{w}{m}",
-            mention_author=False,
+        return await self.context.neutral(
+            description=f"{w}{m}",
         )
