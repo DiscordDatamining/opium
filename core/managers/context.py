@@ -125,8 +125,11 @@ class Help(MinimalHelpCommand):
         self, command: Command[Any, Callable[..., Any], Any]
     ) -> None:
         return await self.context.neutral(
-            description=command,
-            title=f"Command: {command.name}",
+            description=(
+                f"*Command -> {command.name}*\n"
+                f"Aliases: *{','.join(command.aliases)}*\n\n"
+                f"*{command.help}*"
+            ),
         )
 
     async def send_pages(self) -> None:
