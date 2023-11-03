@@ -5,6 +5,7 @@ from typing import Any, Dict, Generator, List, Optional
 import asyncpg
 import redis
 from aiohttp import ClientSession, web
+from cachetools import LRUCache
 from discord import (
     Activity,
     ActivityType,
@@ -43,6 +44,7 @@ class Opium(Bot):
             *args,
             **kwargs,
         )
+        self.cache = LRUCache(maxsize=1000)
         self.run(
             token=Authorization.token,
             log_handler=None,
