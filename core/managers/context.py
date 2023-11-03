@@ -126,6 +126,9 @@ class Help(MinimalHelpCommand):
             f"Command `{string}` was not found in my cogs!",
         )
 
+    async def send_error_message(self, error: str) -> None:
+        return
+
     async def send_bot_help(self, mapping: Dict[str, List[str]]) -> None:
         """
         Sends help info
