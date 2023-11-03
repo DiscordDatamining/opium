@@ -127,8 +127,8 @@ class Help(MinimalHelpCommand):
         return await self.context.neutral(
             description=(
                 f"Command -> {command.name}\n"
-                f"**Aliases**: *{', '.join(command.aliases)}*\n\n"
-                f"**Parameters**: *{', '.join(command.params)}*"
+                f"**Aliases**: *{', '.join(command.aliases)}*\n"
+                f"**Parameters**: *{', '.join(command.params)}*\n\n"
                 f"***{command.help}***"
             ),
         )
