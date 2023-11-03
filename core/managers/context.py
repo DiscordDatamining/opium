@@ -112,13 +112,14 @@ class Help(MinimalHelpCommand):
             **options,
         )
 
-    async def send_bot_help(
-        self, mapping: Mapping[Cog | None, List[Command[Any, Callable[..., Any], Any]]]
-    ) -> Message:
-        return await self.context.reply(
-            mapping,
-            mention_author=False,
-        )
+    async def send_bot_help(self, mapping):
+        for cog, commands in mapping.items():
+            if cog:
+                name = f"**{cog.qualified_name}**: "
+                list = ", ".join([command.name for command in commands])
+                m = f"{name}:\n{list}\n\n"
+
+        await self.context.reply(m, mention_author=False)
 
     async def command_not_found(self, string: str) -> str:
         return await self.context.deny(
