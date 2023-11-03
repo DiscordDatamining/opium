@@ -1,6 +1,7 @@
 from discord.ext.commands import Cog, Context, command, group
 from core.opium import Opium
 from core.models.instagram import InstagramModel
+from typing import Optional
 
 
 class Instagram(Cog):
@@ -8,10 +9,7 @@ class Instagram(Cog):
     Instagram
     """
 
-    def __init__(
-        self: "Instagram",
-        bot: Opium,
-    ):
+    def __init__(self: "Instagram", bot: Opium):
         self.bot: Opium = bot
         self.InstagramModel = InstagramModel(
             cache=self.bot.cache,
@@ -38,6 +36,7 @@ class Instagram(Cog):
             return await ctx.deny(
                 "That user wasn't found on instagram.",
             )
+
         async with ctx.typing():
             return await ctx.neutral(
                 description=user["biography"],
@@ -49,6 +48,26 @@ class Instagram(Cog):
                     ("Media", f'{user["media_count"]:,}', True),
                 ],
                 author=f"{user['full_name'] or ''} ({username})",
+            )
+
+    @instagram.command()
+    async def story(
+        self: "Instagram",
+        ctx: Context,
+        username: str,
+        limit: Optional[int] = 3,
+    ) -> None:
+        """
+        Gets multiple stories on a instagram user
+        """
+        user = await self.InstagramModel.get_user_story(username=username)
+        if not user:
+            return await ctx.deny("No stories found on this user!")
+
+        async with ctx.typing():
+            await ctx.paginate(
+                use_embed=False,
+                pages=[f"[Download Video]({u['video_url']})" for u in user],
             )
 
 

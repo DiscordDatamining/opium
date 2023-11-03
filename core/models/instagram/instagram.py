@@ -51,17 +51,22 @@ class InstagramModel(BaseModel):
     async def get_user_story(
         self: "InstagramModel",
         username: str,
-        limit: Optional[int] = 5,
+        limit: Optional[int] = 3,
     ) -> Dict:
         """
         Gets a Instagram user story.
         """
-        async with ClientSession() as client:
-            response = await client.get(
-                url=f"{self.url}/ig/user/{username}/stories",
-                headers=self.headers,
-                params={
-                    "amount": limit,
-                },
-            )
-            return await response.json()
+        cached = self.cache.get(f"instagram_story:{username}")
+        if cached:
+            return cached
+        else:
+            async with ClientSession() as client:
+                response = await client.get(
+                    url=f"{self.url}/ig/user/{username}/stories",
+                    headers=self.headers,
+                    params={
+                        "amount": limit,
+                    },
+                )
+                self.cache[f"instagram_story:{username}"] = await response.json()
+                return await response.json()
