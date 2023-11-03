@@ -44,9 +44,9 @@ class Instagram(Cog):
             thumbnail=user["profile_pic_url_hd"],
             authoricon=ctx.author.display_avatar.url,
             fields=[
-                ("Followers", user["follower_count"], True),
-                ("Following", user["following_count"], True),
-                ("Media", user["media_count"], True),
+                ("Followers", f'{user["follower_count"]:,}', True),
+                ("Following", f'{user["following_count"]:,}', True),
+                ("Media", f'{user["media_count"]:,}', True),
             ],
             author=f"{user['full_name'] if user['full_name'] else ''} ({username})",
         )
