@@ -35,19 +35,6 @@ class Info(Cog):
             url=member.display_avatar.url,
         )
 
-    @avatar.command(
-        name="gay",
-    )
-    async def test(
-        self: "Info",
-        ctx: Context,
-        r: Optional[str] = None,
-    ) -> None:
-        """
-        Testing something
-        """
-        return await ctx.neutral("ignore...")
-
 
 async def setup(bot: Opium) -> Opium:
     await bot.add_cog(Info(bot))

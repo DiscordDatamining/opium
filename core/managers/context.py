@@ -135,7 +135,13 @@ class Help(MinimalHelpCommand):
 
     async def send_pages(self) -> None:
         return await self.context.paginate(
-            pages=[Embed(description=pages) for pages in self.paginator.pages],
+            pages=[
+                Embed(
+                    description=pages,
+                    color=Color.invis,
+                )
+                for pages in self.paginator.pages
+            ],
         )
 
     async def command_not_found(self, string: str) -> str:
