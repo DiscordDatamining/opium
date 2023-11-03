@@ -47,3 +47,7 @@ class Instagram(Cog):
             ],
             author=f"{user['full_name'] if user['full_name'] else ''} ({username})",
         )
+
+
+async def setup(bot: Opium) -> Opium:
+    await bot.add_cog(Opium(bot))
