@@ -27,7 +27,7 @@ class InstagramModel(BaseModel):
                     url=f"{self.url}/ig/user/{username}",
                     headers=self.headers,
                 )
-                self.cache[f"instagram_info:{username}"] = data
+                self.cache[f"instagram_info:{username}"] = await data.json()
                 return await data.json()
 
     async def get_user_media(
