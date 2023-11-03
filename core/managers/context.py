@@ -1,4 +1,13 @@
-from typing import Any, Coroutine, List, Mapping, Optional, Union, Callable
+from typing import (
+    Any,
+    Callable,
+    Coroutine,
+    Dict,
+    List,
+    Mapping,
+    Optional,
+    Union,
+)
 
 from discord import Embed, Guild, Member, Message
 from discord.ext.commands import Command
@@ -123,24 +132,29 @@ class Help(MinimalHelpCommand):
         """
         return await self.context.deny(error)
 
-    async def send_bot_help(self, mapping):
-        r = []
+    async def send_bot_help(self, mapping: Dict[str, List[str]]) -> None:
+        """
+        Sends help info
+        """
+        filtered = [
+            cog
+            for cog in mapping
+            if not (
+                cog
+                and (
+                    "transcribe".lower() in cog.qualified_name.lower()
+                    or "jishaku".lower() in cog.qualified_name.lower()
+                )
+            )
+        ]
 
-        for cog, commands in mapping.items():
-            if cog:
-                name = f"**{cog.qualified_name}**"
-                if "transcribe".lower() in name:
-                    continue
-                if "jishaku".lower() in name:
-                    continue
-                list = ", ".join([f"`{command.name}`" for command in commands])
-                r.append(f"{name}:\n{list}\n")
-
-        m = "\n".join(r)
-        w = (
-            "To get details on a command, type `!help [command]`.\n"
-            "For a category, use `!help [category]`\n\n"
-        )
+        commands = [
+            f"**{cog.qualified_name}**:\n{', '.join([f'`{command.name}`' for command in mapping[cog]])}\n"
+            for cog in filtered
+        ]
         return await self.context.neutral(
-            description=f"{w}{m}",
+            description=(
+                "To get details on a command, type `!help [command]`.\n"
+                "For a category, use `!help [category]`\n\n" + "\n".join(commands),
+            )
         )
