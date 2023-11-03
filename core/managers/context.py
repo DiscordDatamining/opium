@@ -121,6 +121,19 @@ class Help(MinimalHelpCommand):
             **options,
         )
 
+    async def send_command_help(
+        self, command: Command[Any, Callable[..., Any], Any]
+    ) -> None:
+        return await self.context.neutral(
+            description=command,
+            title=f"Command: {command.name}",
+        )
+
+    async def send_pages(self) -> None:
+        return await self.context.paginate(
+            pages=[Embed(description=pages) for pages in self.paginator.pages],
+        )
+
     async def command_not_found(self, string: str) -> str:
         return await self.context.deny(
             f"Command `{string}` was not found in my cogs!",
