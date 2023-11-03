@@ -68,13 +68,19 @@ class Instagram(Cog):
             if not user:
                 return await ctx.deny("No stories found on this user!")
 
-            await ctx.paginate(
-                use_embed=False,
-                pages=[
-                    f"[Download Video]({u['video_url'] if u['video_url'] is not None else u['thumbnail_url']})"
+            if len(user) == 0:
+                return await ctx.send(
+                    f"[Download Video]({u['video_url'] if u['video_url'] is not None else u['thumbnail_url']}"
                     for u in user
-                ],
-            )
+                )
+            else:
+                return await ctx.paginate(
+                    use_embed=False,
+                    pages=[
+                        f"[Download Video]({u['video_url'] if u['video_url'] is not None else u['thumbnail_url']})"
+                        for u in user
+                    ],
+                )
 
 
 async def setup(bot: Opium) -> Opium:
