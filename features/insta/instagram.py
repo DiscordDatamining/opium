@@ -69,10 +69,12 @@ class Instagram(Cog):
                 return await ctx.deny("No stories found on this user!")
 
             if len(user) == 1:
-                return await ctx.send(
-                    f"[Download Video]({u['video_url'] if u['video_url'] is not None else u['thumbnail_url']}"
-                    for u in user[0]
+                video_url = (
+                    user[0]["video_url"]
+                    if user[0]["video_url"] is not None
+                    else user[0]["thumbnail_url"]
                 )
+                return await ctx.send(f"[Download Video]({video_url})")
             else:
                 return await ctx.paginate(
                     use_embed=False,
