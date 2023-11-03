@@ -126,12 +126,6 @@ class Help(MinimalHelpCommand):
             f"Command `{string}` was not found in my cogs!",
         )
 
-    async def send_error_message(self, error: str) -> Coroutine[Any, Any, None]:
-        """
-        Sends the error message
-        """
-        return await self.context.deny(error)
-
     async def send_bot_help(self, mapping: Dict[str, List[str]]) -> None:
         """
         Sends help info
@@ -139,13 +133,9 @@ class Help(MinimalHelpCommand):
         filtered = [
             cog
             for cog in mapping
-            if not (
-                cog
-                and (
-                    "transcribe".lower() in cog.qualified_name.lower()
-                    or "jishaku".lower() in cog.qualified_name.lower()
-                )
-            )
+            if cog
+            and "transcribe".lower() not in cog.qualified_name.lower()
+            and "jishaku".lower() not in cog.qualified_name.lower()
         ]
 
         commands = [
