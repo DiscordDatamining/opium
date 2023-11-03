@@ -8,7 +8,7 @@ class Authorization:
     token: str = (
         "MTE2ODkwOTcyMTYyNTk2NDYwNQ.GXCjT5.PsUkz8v_BI7VnYbMCCnaw80yzxXdVKK6NrFswc"
     )
-    prefix: str = ","
+    prefix: str = "!"
 
 
 class Api:

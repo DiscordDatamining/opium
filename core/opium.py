@@ -22,14 +22,14 @@ from terminut import printf as print
 
 from core.config import Api, Authorization, db
 from core.database import database
-from core.managers.context import Context
+from core.managers.context import Context, Help
 
 
 class Opium(Bot):
     def __init__(self: "Opium", *args, **kwargs):
         super().__init__(
             command_prefix=Authorization.prefix,
-            help_command=None,
+            help_command=Help(),
             allowed_mentions=AllowedMentions(
                 replied_user=False,
                 everyone=False,
@@ -40,6 +40,7 @@ class Opium(Bot):
             activity=Activity(
                 type=ActivityType.custom,
                 state="geeked up, not opium enough",
+                name=".",
             ),
             intents=Intents.all(),
             owner_ids=Authorization.owner_ids,

@@ -1,9 +1,10 @@
-from typing import List, Optional, Union
+from typing import Any, Coroutine, List, Mapping, Optional, Union, Callable
 
 from discord import Embed, Guild, Member, Message
 from discord.ext.commands import Command
 from discord.ext.commands import Context as ContextConverter
 from discord.ext.commands import Group, MinimalHelpCommand
+from discord.ext.commands.cog import Cog
 
 from core.config import Color
 from core.managers.paginator import paginator
@@ -94,3 +95,38 @@ class Context(ContextConverter):
             embed.description = f"> {description}"
 
         return await self.send(embed=embed, *args, **kwargs)
+
+
+class Help(MinimalHelpCommand):
+    context: Context
+
+    def __init__(self: "Help", *args, **options) -> None:
+        super().__init__(
+            command_attrs={
+                "aliases": [
+                    "h",
+                    "command",
+                    "cmd",
+                ]
+            },
+            **options,
+        )
+
+    async def send_bot_help(
+        self, mapping: Mapping[Cog | None, List[Command[Any, Callable[..., Any], Any]]]
+    ) -> Message:
+        return await self.context.reply(
+            mapping,
+            mention_author=False,
+        )
+
+    async def command_not_found(self, string: str) -> str:
+        return await self.context.deny(
+            f"Command `{string}` was not found in my cogs!",
+        )
+
+    async def send_error_message(self, error: str) -> Coroutine[Any, Any, None]:
+        """
+        Sends the error message
+        """
+        return await self.context.deny(error)
