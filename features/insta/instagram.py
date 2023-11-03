@@ -49,5 +49,5 @@ class Instagram(Cog):
         )
 
 
-async def setup(bot: Opium):
-    await bot.add_cog(Opium(bot))
+async def setup(bot: Opium) -> Opium:
+    await bot.add_cog(Instagram(bot))
