@@ -8,7 +8,7 @@ from core.config import Api
 from core.opium import Opium
 
 
-bot = Opium
+bot = Opium()
 
 
 class InstagramModel(BaseModel):
