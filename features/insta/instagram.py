@@ -58,7 +58,7 @@ class Instagram(Cog):
         limit: Optional[int] = 3,
     ) -> None:
         """
-        Gets multiple stories on a instagram user
+        Gets multiple stories on an Instagram user
         """
         async with ctx.typing():
             user = await self.InstagramModel.get_user_story(
@@ -70,7 +70,11 @@ class Instagram(Cog):
 
             await ctx.paginate(
                 use_embed=False,
-                pages=[f"[Download Video]({u['video_url']})" for u in user],
+                pages=[
+                    f"[Download Video]({u['video_url']})"
+                    for u in user
+                    if u["video_url"] is not None
+                ],
             )
 
 
