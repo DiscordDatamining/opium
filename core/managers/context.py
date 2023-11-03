@@ -145,6 +145,6 @@ class Help(MinimalHelpCommand):
         return await self.context.neutral(
             description=(
                 "To get details on a command, type `!help [command]`.\n"
-                "For a category, use `!help [category]`\n\n" + "\n".join(commands),
+                "For a category, use `!help [category]`\n\n" + "\n".join(commands)
             )
         )
