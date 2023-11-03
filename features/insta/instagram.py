@@ -71,7 +71,7 @@ class Instagram(Cog):
             if len(user) == 1:
                 return await ctx.send(
                     f"[Download Video]({u['video_url'] if u['video_url'] is not None else u['thumbnail_url']}"
-                    for u in user
+                    for u in user[0]
                 )
             else:
                 return await ctx.paginate(
