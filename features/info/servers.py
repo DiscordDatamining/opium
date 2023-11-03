@@ -12,12 +12,13 @@ class Info(Cog):
     def __init__(self: "Info", bot: Opium) -> None:
         self.bot: Opium = Opium
 
-    @command(
+    @group(
         name="avatar",
         aliases=[
             "av",
             "pfp",
         ],
+        invoke_without_command=True,
     )
     async def avatar(
         self: "Info",
@@ -33,6 +34,19 @@ class Info(Cog):
             image=member.display_avatar.url,
             url=member.display_avatar.url,
         )
+
+    @avatar.command(
+        name="gay",
+    )
+    async def test(
+        self: "Info",
+        ctx: Context,
+        r: Optional[str] = None,
+    ) -> None:
+        """
+        Testing something
+        """
+        return await ctx.neutral("ignore...")
 
 
 async def setup(bot: Opium) -> Opium:
