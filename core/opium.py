@@ -37,7 +37,7 @@ class Opium(Bot):
                 users=True,
                 roles=False,
             ),
-            status=Status.idle,
+            status=Status.dnd,
             intents=Intents.all(),
             owner_ids=Authorization.owner_ids,
             case_insensitive=True,
