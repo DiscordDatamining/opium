@@ -8,18 +8,16 @@ from core.config import Api
 from core.opium import Opium
 
 
-bot = Opium()
-
-
 class InstagramModel(BaseModel):
     url: str = Api.url
     headers: dict = Api.headers
+    bot: "Opium"
 
     async def get_user(self: "InstagramModel", username: str) -> None:
         """
         Get information on a instagram user
         """
-        cached = bot.cache.get(f"instagram_info:{username}")
+        cached = self.bot.cache.get(f"instagram_info:{username}")
 
         if cached:
             return cached
@@ -30,7 +28,7 @@ class InstagramModel(BaseModel):
                     url=f"{self.url}/ig/user/{username}",
                     headers=self.headers,
                 )
-                bot.cache[f"instagram_info:{username}"] = data
+                self.bot.cache[f"instagram_info:{username}"] = data
                 return await data.json()
 
     async def get_user_media(

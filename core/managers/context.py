@@ -126,7 +126,7 @@ class Help(MinimalHelpCommand):
     ) -> None:
         return await self.context.neutral(
             description=(
-                f"!{command.name} [command] (paramaters)\n"
+                f"!{command.name} [command] (parameters)\n"
                 f"**Aliases**: *{', '.join(command.aliases)}*\n"
                 f"**Parameters**: *{', '.join(command.params)}*\n\n"
                 f"*{command.help}*\n\n"
@@ -156,21 +156,6 @@ class Help(MinimalHelpCommand):
         """
         Sends help info
         """
-        filtered = [
-            cog
-            for cog in mapping
-            if cog
-            and "transcribe".lower() not in cog.qualified_name.lower()
-            and "jishaku".lower() not in cog.qualified_name.lower()
-        ]
-
-        commands = [
-            f"**{cog.qualified_name}**:\n{', '.join([f'`{command.name}`' for command in mapping[cog]])}\n"
-            for cog in filtered
-        ]
         return await self.context.neutral(
-            description=(
-                "To get details on a command, type `!help [command]`.\n"
-                "For a category, use `!help [category]`\n\n" + "\n".join(commands)
-            )
+            "Join my discord **[here](https://discord.gg/op1um)**",
         )
