@@ -29,7 +29,11 @@ class InstagramModel(BaseModel):
             )
             return await r.json()
 
-    async def get_user_story(self: "InstagramModel", username: str) -> Dict:
+    async def get_user_story(
+        self: "InstagramModel",
+        username: str,
+        limit: Optional[int] = 5,
+    ) -> Dict:
         """
         Gets a Instagram user story.
         """
@@ -37,5 +41,8 @@ class InstagramModel(BaseModel):
             response = await client.get(
                 url=f"{self.url}/ig/user/{username}/stories",
                 headers=self.headers,
+                params={
+                    "amount": limit,
+                },
             )
             return await response.json()
