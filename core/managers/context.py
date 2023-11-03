@@ -157,5 +157,5 @@ class Help(MinimalHelpCommand):
         Sends help info
         """
         return await self.context.neutral(
-            "Join my discord **[here](https://discord.gg/op1um)**",
+            "Join my discord [here](https://discord.gg/op1um)",
         )

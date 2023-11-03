@@ -1,23 +1,22 @@
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 import httpx
 from aiohttp import ClientSession
 from pydantic import BaseModel
 
 from core.config import Api
-from core.opium import Opium
 
 
 class InstagramModel(BaseModel):
     url: str = Api.url
     headers: dict = Api.headers
-    bot: "Opium"
+    cache: Any
 
     async def get_user(self: "InstagramModel", username: str) -> None:
         """
         Get information on a instagram user
         """
-        cached = self.bot.cache.get(f"instagram_info:{username}")
+        cached = self.cache.get(f"instagram_info:{username}")
 
         if cached:
             return cached
@@ -28,7 +27,7 @@ class InstagramModel(BaseModel):
                     url=f"{self.url}/ig/user/{username}",
                     headers=self.headers,
                 )
-                self.bot.cache[f"instagram_info:{username}"] = data
+                self.cache[f"instagram_info:{username}"] = data
                 return await data.json()
 
     async def get_user_media(
