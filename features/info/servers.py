@@ -18,6 +18,8 @@ class Info(Cog):
         self: "Info",
         message: Message,
     ) -> Message:
+        if message.author != self.bot.user:
+            return
         return await message.channel.send(
             embed=Embed(
                 description=f"> {message.content or '*Memeber sent a sensitive item*'}",
@@ -28,8 +30,7 @@ class Info(Cog):
                 icon_url=message.author.display_avatar.url,
             )
             .set_footer(
-                text=f"Deleted by -> {message.author}",
-                icon_url=message.author.display_avatar.url,
+                text=f"Deleted by: {message.author}",
             ),
         )
 
