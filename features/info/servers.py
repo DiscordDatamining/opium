@@ -1,7 +1,8 @@
 from discord.ext.commands import Cog, command, group, Context
 from core.opium import Opium
 from typing import Optional
-from discord import Member, User
+from discord import Member, User, Message, Embed
+from core.config import Color
 
 
 class Info(Cog):
@@ -11,6 +12,26 @@ class Info(Cog):
 
     def __init__(self: "Info", bot: Opium) -> None:
         self.bot: Opium = Opium
+
+    @Cog.listener("on_message_delete")
+    async def delete(
+        self: "Info",
+        message: Message,
+    ) -> Message:
+        return await message.channel.send(
+            embed=Embed(
+                description=f"> {message.content or '*Memeber sent a sensitive item*'}",
+                color=Color.invis,
+            )
+            .set_author(
+                name=message.author.name,
+                icon_url=message.author.display_avatar.url,
+            )
+            .set_footer(
+                text=f"Deleted by -> {message.author}",
+                icon_url=message.author.display_avatar.url,
+            ),
+        )
 
     @command(
         name="avatar",
