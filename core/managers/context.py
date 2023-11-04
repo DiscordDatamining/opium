@@ -139,6 +139,11 @@ class Help(MinimalHelpCommand):
     async def send_command_help(
         self, command: Command[Any, Callable[..., Any], Any]
     ) -> None:
+        cooldown = "*No cooldown*"
+        if command._buckets and command._buckets._cooldown:
+            rate = command._buckets._cooldown.rate
+            per = command._buckets._cooldown.per
+            cooldown = f"{rate} per {per:.0f} sec"
         subcommands = (
             "\n".join(
                 f"`{sub_command.name}` - {sub_command.short_doc or '*No description*'}"
