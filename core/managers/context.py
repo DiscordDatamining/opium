@@ -167,7 +167,7 @@ class Help(MinimalHelpCommand):
                 ),
                 (
                     "**Aliases**",
-                    " | ".join(command.aliases or "*No aliases available*"),
+                    " | ".join(command.aliases) or "*No aliases available*",
                     True,
                 ),
                 (
