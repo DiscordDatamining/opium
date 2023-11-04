@@ -172,7 +172,7 @@ class Help(MinimalHelpCommand):
                 ),
                 (
                     "**Cooldown**",
-                    f"{command._buckets._cooldown.rate} per {command._buckets._cooldown.per:.0f} sec",
+                    f"{cooldown}",
                     True,
                 ),
                 (
