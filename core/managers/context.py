@@ -149,7 +149,7 @@ class Help(MinimalHelpCommand):
                 f"`{sub_command.name}` - {sub_command.short_doc or '*No description*'}"
                 for sub_command in getattr(command, "commands", [])
             )
-            or "No subcommands available"
+            or "*No subcommands available*"
         )
 
         return await self.context.neutral(
@@ -162,12 +162,12 @@ class Help(MinimalHelpCommand):
             fields=[
                 (
                     "**Signature**",
-                    f"`[!{command} <{''.join(command.params)}>](https://discord.gg/op1um)`",
+                    f"[`!{command} <{', '.join(command.params)}>`](https://discord.gg/op1um)",
                     False,
                 ),
                 (
                     "**Aliases**",
-                    "| ".join(command.aliases),
+                    " | ".join(command.aliases),
                     True,
                 ),
                 (
@@ -176,7 +176,7 @@ class Help(MinimalHelpCommand):
                     True,
                 ),
                 (
-                    "**SubCommands**",
+                    "**Commands**",
                     subcommands,
                     False,
                 ),
