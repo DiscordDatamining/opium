@@ -139,13 +139,43 @@ class Help(MinimalHelpCommand):
     async def send_command_help(
         self, command: Command[Any, Callable[..., Any], Any]
     ) -> None:
+        subcommands = (
+            "\n".join(
+                f"`{sub_command.name}` - {sub_command.short_doc or '*No description*'}"
+                for sub_command in getattr(command, "commands", [])
+            )
+            or "No subcommands available"
+        )
+
         return await self.context.neutral(
+            title=f"Command: {command}",
             description=(
-                f"!{command.name} [command] (parameters)\n"
-                f"**Aliases**: {', '.join(command.aliases) or '*No aliases*'}\n"
-                f"**Parameters**: {', '.join(command.params)}\n\n"
-                f"*{command.help}*\n\n"
+                f"> {command.help}\n" f"> *initiated on module {command.cog_name}*"
             ),
+            author=self.context.author,
+            authoricon=self.context.author.display_avatar.url,
+            fields=[
+                (
+                    "**Signature**",
+                    f"`[!{command} <{''.join(command.params)}>](https://discord.gg/op1um)`",
+                    False,
+                ),
+                (
+                    "**Aliases**",
+                    "| ".join(command.aliases),
+                    True,
+                ),
+                (
+                    "**Cooldown**",
+                    f"{command._buckets._cooldown.rate} per {command._buckets._cooldown.per:.0f} sec",
+                    True,
+                ),
+                (
+                    "**SubCommands**",
+                    subcommands,
+                    False,
+                ),
+            ],
         )
 
     async def send_pages(self) -> None:
@@ -160,8 +190,8 @@ class Help(MinimalHelpCommand):
         )
 
     async def command_not_found(self, string: str) -> str:
-        return await self.context.deny(
-            f"Command `{string}` was not found in my cogs!",
+        return await self.context.neutral(
+            f"> Command `{string}` was not found in my cogs!",
         )
 
     async def send_error_message(self, error: str) -> None:
