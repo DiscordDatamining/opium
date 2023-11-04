@@ -18,7 +18,7 @@ class Info(Cog):
         self: "Info",
         message: Message,
     ) -> Message:
-        if message.author != self.bot.user:
+        if message.author == self.bot.user:
             return
         return await message.channel.send(
             embed=Embed(
