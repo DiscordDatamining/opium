@@ -13,27 +13,6 @@ class Info(Cog):
     def __init__(self: "Info", bot: Opium) -> None:
         self.bot: Opium = Opium
 
-    @Cog.listener("on_message_delete")
-    async def delete(
-        self: "Info",
-        message: Message,
-    ) -> Message:
-        if message.author == self.bot.user:
-            return
-        return await message.channel.send(
-            embed=Embed(
-                description=f"> {message.content or '*Memeber sent a sensitive item*'}",
-                color=Color.invis,
-            )
-            .set_author(
-                name=message.author.name,
-                icon_url=message.author.display_avatar.url,
-            )
-            .set_footer(
-                text=f"Deleted by: {message.author}",
-            ),
-        )
-
     @command(
         name="avatar",
         aliases=[
