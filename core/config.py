@@ -6,7 +6,7 @@ class Authorization:
         1168732514152628285,
     ]
     token: str = (
-        "MTE0MzgyOTA2MDY0OTIzNDQ3Mg.Gh2Ccq.T3f3Zsdk_eV6esR78IlsrlvepBae5FZIHfFcgY"
+        "MTE0MzgyOTA2MDY0OTIzNDQ3Mg.G8x0sL.Inn7O4TcKAi0s8aJhuIBV6FOdnEoSR6Top5k9o"
     )
     prefix: str = "!"
 
